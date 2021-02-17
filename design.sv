@@ -16,8 +16,8 @@ wire [DATAPATHLEN-1:0] w3;
 
   nbitshifter #(SHIFT ,DIVISORLEN,DATAPATHLEN) s0(divisor,w1);
   twoscomplement#(DATAPATHLEN) t0(w1,w2);
-  nbitfulladder #(DATAPATHLEN) a0(in,w2,w3,quotient[SHIFT]);
-  mux2_1 #(DATAPATHLEN) m0(dividend,w3,quotient[SHIFT],dout);
+  nbitfulladder #(DATAPATHLEN) a0(din,w2,w3,quotient[SHIFT]);
+  mux2_1 #(DATAPATHLEN) m0(din,w3,quotient[SHIFT],dout);
   assign divout = divisor;
   
 endmodule
