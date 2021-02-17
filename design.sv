@@ -1,5 +1,5 @@
 //Divider Stage Module and Pipelined Divider Module
-module dividerslice #(parameter SHIFT=5 ,parameter DIVIDENDLEN=16, parameter DIVISORLEN = 8)(din,divisor,quotient,dout);
+module dividerslice #(parameter SHIFT=5 ,parameter DIVIDENDLEN=16, parameter DIVISORLEN = 8)(din,divisor,quotient,dout,divout);
 localparam DATAPATHLEN = DIVIDENDLEN + DIVISORLEN -1;
 
 input[DATAPATHLEN-1:0]din;
@@ -20,5 +20,5 @@ wire [DATAPATHLEN-1:0] w3;
   mux2_1 #(DATAPATHLEN) m0(dividend,w3,quotient[SHIFT],dout);
   assign divout = divisor;
   
-endmodule;
+endmodule
 
