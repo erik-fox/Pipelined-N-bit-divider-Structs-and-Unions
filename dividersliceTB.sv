@@ -1,15 +1,18 @@
+// Code your testbench here
+// or browse Examples
 module top();
-parameter DIVIDENDLEN=3;
+parameter DIVIDENDLEN=4;
 parameter DIVISORLEN = 2;
-parameter SHIFT= 2;
+parameter SHIFT= 3;
 localparam DATAPATHLEN = DIVIDENDLEN +DIVISORLEN -1;
 bit [DATAPATHLEN-1:0]din;
 bit [DIVISORLEN-1:0]divisor;
-wire [DATAPATHLEN-1:0] quotient;
+  bit [DIVIDENDLEN-1:0] qin=4'b1010;  
+wire [DIVIDENDLEN-1:0] quotient;
 wire [DATAPATHLEN-1:0] dout;
 wire [DIVISORLEN-1:0] divout;
 
-dividerslice #(SHIFT,DIVIDENDLEN,DIVISORLEN) d0 (din,divisor,quotient,dout,divout);
+  dividerslice #(SHIFT,DIVIDENDLEN,DIVISORLEN) d0 (din,divisor,qin,quotient,dout,divout);
 
 initial
   begin
