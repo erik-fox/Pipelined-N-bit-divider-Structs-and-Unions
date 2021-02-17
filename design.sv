@@ -1,10 +1,11 @@
 //Divider Stage Module and Pipelined Divider Module
-module dividerslice #(parameter SHIFT=5 ,parameter DIVIDENDLEN=16, parameter DIVISORLEN = 8)(din,divisor,quotient,dout,divout);
+module dividerslice #(parameter SHIFT=5 ,parameter DIVIDENDLEN=16, parameter DIVISORLEN = 8)(din,divin,qin,qout,dout,divout);
 localparam DATAPATHLEN = DIVIDENDLEN + DIVISORLEN -1;
 
 input[DATAPATHLEN-1:0]din;
-input[DIVISORLEN-1:0]divisor;
-output [DATAPATHLEN-1:0] quotient;
+input[DIVISORLEN-1:0]divin;
+input[DIVIDENDLEN-1:0]qin;
+output [DIVIDENDLEN-1:0] qout;
 output [DATAPATHLEN-1:0] dout;
 output[DIVISORLEN-1:0] divout;
   
@@ -14,10 +15,11 @@ wire [DATAPATHLEN-1:0] w3;
 
 
 
-  nbitshifter #(SHIFT ,DIVISORLEN,DATAPATHLEN) s0(divisor,w1);
+  nbitshifter #(SHIFT ,DIVISORLEN,DATAPATHLEN) s0(divin,w1);
   twoscomplement#(DATAPATHLEN) t0(w1,w2);
-  nbitfulladder #(DATAPATHLEN) a0(din,w2,w3,quotient[SHIFT]);
-  mux2_1 #(DATAPATHLEN) m0(din,w3,quotient[SHIFT],dout);
+  nbitfulladder #(DATAPATHLEN) a0(din,w2,w3,qout[SHIFT]);
+  mux2_1 #(DATAPATHLEN) m0(din,w3,qout[SHIFT],dout);
+  assign qout[DIVIDENDLEN-1:SHIFT+1]= qin[DIVIDENDLEN-1:SHIFT+1];
   assign divout = divisor;
   
 endmodule
