@@ -1,4 +1,14 @@
 //Divider Stage Module and Pipelined Divider Module
+module pipelinediv #(parameter DIVIDENDLEN =16, parameter DIVISORLEN=8)(clock,dividend,divisor,quotient,remainder);
+localparam DATAPATHLEN = DIVIDENDLEN + DIVISORLEN -1;
+input clock;
+input [DIVIDENDLEN-1:0]dividend;
+input [DIVISORLEN-1:0]divisor;
+output [DIVIDENDLEN-1:0]quotient;
+output [DIVISORLEN-1:0]remainder;
+  
+endmodule
+
 module dividerslice #(parameter SHIFT=5 ,parameter DIVIDENDLEN=16, parameter DIVISORLEN = 8)(din,divin,qin,qout,dout,divout);
 localparam DATAPATHLEN = DIVIDENDLEN + DIVISORLEN -1;
 
