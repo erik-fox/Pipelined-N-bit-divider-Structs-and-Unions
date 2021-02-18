@@ -7,11 +7,11 @@ input [DIVISORLEN-1:0]divisor;
 output [DIVIDENDLEN-1:0]quotient;
 output [DIVISORLEN-1:0]remainder;
 
-  wire[DATAPATHLEN-1:0]w1[DIVIDENDLEN];  //qout
+  wire[DIVIDENDLEN-1:0]w1[DIVIDENDLEN];  //qout
   wire[DATAPATHLEN-1:0]w2[DIVIDENDLEN];    //dout
-  wire[DATAPATHLEN-1:0]w3[DIVIDENDLEN];     //divout
+  wire[DIVOSORLEN-1:0]w3[DIVIDENDLEN];     //divout
   
-	bit [DIVISORLEN+DATAPATHLEN+DIVIDENDLEN+($clog2(DIVIDENDLEN))-1:0]register[DIVIDENDLEN];//bits in divisor, datapath, quotient and counter for shifts
+	bit [DIVISORLEN+DATAPATHLEN+DIVIDENDLEN-1:0]register[DIVIDENDLEN];//bits in divisor, datapath, quotient 
 
 genvar i;
 
@@ -31,7 +31,8 @@ endgenerate
 
 always_ff @(posedge clock)
 begin
-  
+	for(int j=0;j<=(DIVIDENDLEN)-1;j++)
+		register<={w1[i],w2[i],w3[i]};
 end
                                                                        
   
