@@ -6,6 +6,33 @@ input [DIVIDENDLEN-1:0]dividend;
 input [DIVISORLEN-1:0]divisor;
 output [DIVIDENDLEN-1:0]quotient;
 output [DIVISORLEN-1:0]remainder;
+
+  wire[DATAPATHLEN-1:0]w1[DIVIDENDLEN];  //qout
+  wire[DATAPATHLEN-1:0]w2[DIVIDENDLEN];    //dout
+  wire[DATAPATHLEN-1:0]w3[DIVIDENDLEN];     //divout
+  
+  bit [DIVISORLEN+DATAPATHLEN+DIVIDENDLEN+(1<<DIVIDENDLEN)-1:0]register[DIVIDENDLEN];
+genvar i;
+
+generate
+  for (i=0;i<=(DIVIDENDLEN)-1;i++)
+	begin:divider
+        if(i==0)//first
+	    	begin
+          dividerslice #(((DIVIDENDLEN-1)-i),DIVIDENDLEN,DIVISORLEN) d((dividend,divisor,DIVIDENDLEN'b0,w1[i],w2[i],w3[i]);
+		    end
+        else
+        begin
+          dividerslice #(((DIVIDENDLEN-1)-i),DIVIDENDLEN,DIVISORLEN) d((w2[i-1],w3[i-1],w1[i-1],w1[i],w2[i],w3[i]);
+		    end
+	end
+endgenerate
+
+always_ff @(posedge clock)
+begin
+  
+end
+                                                                       
   
 endmodule
 
