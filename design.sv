@@ -32,7 +32,10 @@ endgenerate
 always_ff @(posedge clock)
 begin
 	for(int j=0;j<=(DIVIDENDLEN)-1;j++)
+	begin	
 		register[j]<={w1[j],w2[j],w3[j]};
+		$strobe("j %d register j w1 %b w2 %b w3 %b",j,w1[j],w2[j],w3[j]);
+	end
 end
 assign quotient=register [DIVIDENDLEN-1] [DIVIDENDLEN+DIVISORLEN+DATAPATHLEN-1 : DIVISORLEN+DATAPATHLEN];
 assign remainder= register[DIVIDENDLEN-1][DIVISORLEN+DATAPATHLEN-1:DIVISORLEN];								       
@@ -65,7 +68,10 @@ mux2_1 #(DATAPATHLEN) m0(din,w3,qout[SHIFT],dout);
 always_comb
 	begin
       		if(SHIFT!=DIVIDENDLEN-1)
-          		qout[DIVIDENDLEN-1:SHIFT+1]= qin[DIVIDENDLEN-1:SHIFT+1];
+          		begin
+			$display("SHIFT %d",SHIFT);
+			qout[DIVIDENDLEN-1:SHIFT+1]= qin[DIVIDENDLEN-1:SHIFT+1];
+			end
     	end
   
 assign divout = divin;

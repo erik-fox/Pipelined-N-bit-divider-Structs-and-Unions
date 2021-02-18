@@ -1,7 +1,7 @@
 //testbench for pipelined divider
 module top();
-parameter DIVIDEND =16;
-parameter DIVISOR =8;
+parameter DIVIDEND =3;
+parameter DIVISOR =2;
 parameter TRUE = 1'b1;
 parameter FALSE  = 1'b0;
 parameter CLOCK_CYCLE  = 20;
@@ -12,7 +12,7 @@ bit [DIVISOR-1:0] divisor;
 wire [DIVIDEND-1:0] quotient;
 wire [DIVISOR-1:0] remainder;
   
-divider  #(DIVIDEND,DIVISOR)d0(dividend,divisor,quotient, remainder);
+pipelinediv  #(DIVIDEND,DIVISOR)d0(clock,dividend,divisor,quotient, remainder);
 
 initial
 begin
@@ -49,5 +49,10 @@ begin
 `endif
       	end        
 end
-  
+
+initial
+begin 	
+	#1000
+	$stop;
+end  
 endmodule
