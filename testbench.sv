@@ -37,7 +37,7 @@ end
 always @(posedge clock)
 begin
       queue.push_front({divisor,dividend});
-      if(queue.size()===(DIVISOR-1)
+      if(queue.size()===(DIVISOR-1))
       begin
       		tbcheck = queue.pop_back();
       		if(tbcheck[DIVIDEND-1:0]/tbcheck[DIVIDEND+DIVISOR-1:DIVIDEND]!==quotient)
