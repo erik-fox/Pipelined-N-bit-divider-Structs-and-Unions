@@ -11,7 +11,8 @@ output [DIVISORLEN-1:0]remainder;
   wire[DATAPATHLEN-1:0]w2[DIVIDENDLEN];    //dout
   wire[DATAPATHLEN-1:0]w3[DIVIDENDLEN];     //divout
   
-  bit [DIVISORLEN+DATAPATHLEN+DIVIDENDLEN+(1<<DIVIDENDLEN)-1:0]register[DIVIDENDLEN];
+	bit [DIVISORLEN+DATAPATHLEN+DIVIDENDLEN+($clog2(DIVIDENDLEN))-1:0]register[DIVIDENDLEN];//bits in divisor, datapath, quotient and counter for shifts
+
 genvar i;
 
 generate
