@@ -1,7 +1,7 @@
 //testbench for pipelined divider
 module top();
-parameter DIVIDEND =4;
-parameter DIVISOR =2;
+parameter DIVIDEND =16;
+parameter DIVISOR =8;
 parameter TRUE = 1'b1;
 parameter FALSE  = 1'b0;
 parameter CLOCK_CYCLE  = 20;
@@ -32,6 +32,7 @@ begin
       		#20 
       		{divisor,dividend}=i;
     	end
+	$stop;
 end
 
 always @(posedge clock)
@@ -43,7 +44,6 @@ begin
       		tbcheck = queue.pop_back();
       		if(tbcheck[DIVIDEND-1:0]/tbcheck[DIVIDEND+DIVISOR-1:DIVIDEND]!==quotient)
       		begin
-              $display("qDividend %d qDivisor %d qD/qD %d quotient %d",tbcheck[DIVIDEND-1:0],tbcheck[DIVIDEND+DIVISOR-1:DIVIDEND],tbcheck[DIVIDEND-1:0]/tbcheck[DIVIDEND+DIVISOR-1:DIVIDEND],quotient);
               		if(tbcheck[DIVIDEND+DIVISOR-1:DIVIDEND]===0)
 				$display("Divide by zero");
          		else
@@ -59,11 +59,6 @@ begin
 	 	else
          		$display("dividend: %d divisor: %d quotient: %d remainder %d", tbcheck[DIVIDEND-1:0], tbcheck[DIVIDEND+DIVISOR-1:DIVIDEND], quotient,remainder);
 `endif
+	end
 end
-end
-initial
-  begin
-    #1300
-    $stop;
-  end
 endmodule
