@@ -32,10 +32,10 @@ endgenerate
 always_ff @(posedge clock)
 begin
 	for(int j=0;j<=(DIVIDENDLEN)-1;j++)
-		register<={w1[j],w2[j],w3[j]};
+		register[i]<={w1[j],w2[j],w3[j]};
 end
-assign quotient= w1[DIVIDENDLEN-1];
-assign remainder= w2[DIVIDENDLEN-1];								       
+assign quotient=register[DIVIDENDLEN+DIVISORLEN+DATAPATHLEN-1:DIVISORLEN+DATAPATHLEN][DIVIDENDLEN-1] ;
+assign remainder= register[DIVISORLEN+DATAPATHLEN-1:DIVISORLEN][DIVIDENDLEN-1];								       
 								      
 								    
   
