@@ -55,8 +55,10 @@ begin
                 end
        		else if(remainder!==tbcheck[DIVIDEND-1:0] - (quotient*tbcheck[DIVIDEND+DIVISOR-1:DIVIDEND]))
           		$display("error remainder: %d, expected: %d", remainder, (tbcheck[DIVIDEND-1:0] - ((tbcheck[DIVIDEND-1:0]/tbcheck[DIVIDEND+DIVISOR-1:DIVIDEND])*tbcheck[DIVIDEND+DIVISOR-1:DIVIDEND])));
-     	 	else
+`ifdef DEBUG     
+	 	else
          		$display("dividend: %d divisor: %d quotient: %d remainder %d", tbcheck[DIVIDEND-1:0], tbcheck[DIVIDEND+DIVISOR-1:DIVIDEND], quotient,remainder);
+`endif
 end
 end
 initial

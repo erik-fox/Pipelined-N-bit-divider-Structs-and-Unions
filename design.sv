@@ -66,7 +66,6 @@ always_comb
 	begin
       		if(SHIFT!=DIVIDENDLEN-1)
           		begin
-			$display("SHIFT %d",SHIFT);
 			qout[DIVIDENDLEN-1:SHIFT+1]= qin[DIVIDENDLEN-1:SHIFT+1];
 			end
     	end
