@@ -14,7 +14,7 @@ wire [DIVIDEND-1:0] quotient;
 wire [DIVISOR-1:0] remainder;
 
 bit [DIVIDEND+DIVISOR-1:0] queue [$];
-bit [DIVIDEND+DIVISOR-1:0] tbcheck;
+  bit [DIVIDEND+DIVISOR-1:0] tbcheck;
   
 pipelinediv  #(DIVIDEND,DIVISOR)d0(clock, dividend,divisor,quotient, remainder);
 
@@ -36,12 +36,14 @@ end
 
 always @(posedge clock)
 begin
+  #1
       queue.push_front({divisor,dividend});
-      if(queue.size()===(DIVISOR-1))
+  		if(queue.size()===(DIVIDEND))
       begin
       		tbcheck = queue.pop_back();
       		if(tbcheck[DIVIDEND-1:0]/tbcheck[DIVIDEND+DIVISOR-1:DIVIDEND]!==quotient)
       		begin
+              $display("qDividend %d qDivisor %d qD/qD %d quotient %d",tbcheck[DIVIDEND-1:0],tbcheck[DIVIDEND+DIVISOR-1:DIVIDEND],tbcheck[DIVIDEND-1:0]/tbcheck[DIVIDEND+DIVISOR-1:DIVIDEND],quotient);
               		if(tbcheck[DIVIDEND+DIVISOR-1:DIVIDEND]===0)
 				$display("Divide by zero");
          		else
@@ -55,9 +57,8 @@ begin
           		$display("error remainder: %d, expected: %d", remainder, (tbcheck[DIVIDEND-1:0] - ((tbcheck[DIVIDEND-1:0]/tbcheck[DIVIDEND+DIVISOR-1:DIVIDEND])*tbcheck[DIVIDEND+DIVISOR-1:DIVIDEND])));
      	 	else
          		$display("dividend: %d divisor: %d quotient: %d remainder %d", tbcheck[DIVIDEND-1:0], tbcheck[DIVIDEND+DIVISOR-1:DIVIDEND], quotient,remainder);
-         end
 end
-  	
+end
 initial
   begin
     #1300
