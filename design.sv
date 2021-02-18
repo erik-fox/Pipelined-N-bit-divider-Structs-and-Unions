@@ -11,8 +11,8 @@ wire[DIVIDENDLEN-1:0]w1[DIVIDENDLEN];  //qout
 wire[DATAPATHLEN-1:0]w2[DIVIDENDLEN];    //dout
 wire[DIVISORLEN-1:0]w3[DIVIDENDLEN];     //divout
   
-bit [DIVISORLEN+DATAPATHLEN+DIVIDENDLEN-1:0]register[DIVIDENDLEN];//bits in divisor, datapath, quotient 
-bit [DIVIDENDLEN-1:0]q='0;
+ bit [DIVISORLEN+DATAPATHLEN+DIVIDENDLEN-1:0]register[DIVIDENDLEN];//bits in divisor, datapath, quotient 
+ bit [DIVIDENDLEN-1:0]q='0;
 genvar i;
 
 generate
@@ -24,7 +24,7 @@ generate
 		end
         	else
         	begin
-          		dividerslice #(((DIVIDENDLEN-1)-i),DIVIDENDLEN,DIVISORLEN) d(w2[i-1],w3[i-1],w1[i-1],w1[i],w2[i],w3[i]);
+             		dividerslice #(((DIVIDENDLEN-1)-i),DIVIDENDLEN,DIVISORLEN) d(register[i-1][DATAPATHLEN+DIVISORLEN-1:DIVISORLEN],register[i-1][DIVISORLEN-1:0],register[i-1][DIVISORLEN+DATAPATHLEN+DIVIDENDLEN-1:DATAPATHLEN+DIVISORLEN],w1[i],w2[i],w3[i]);
 		end
 	end
 endgenerate
@@ -32,10 +32,7 @@ endgenerate
 always_ff @(posedge clock)
 begin
 	for(int j=0;j<=(DIVIDENDLEN)-1;j++)
-	begin	
 		register[j]<={w1[j],w2[j],w3[j]};
-		$strobe("j %d register j w1 %b w2 %b w3 %b",j,w1[j],w2[j],w3[j]);
-	end
 end
 assign quotient=register [DIVIDENDLEN-1] [DIVIDENDLEN+DIVISORLEN+DATAPATHLEN-1 : DIVISORLEN+DATAPATHLEN];
 assign remainder= register[DIVIDENDLEN-1][DIVISORLEN+DATAPATHLEN-1:DIVISORLEN];								       
