@@ -34,7 +34,10 @@ begin
 	for(int j=0;j<=(DIVIDENDLEN)-1;j++)
 		register<={w1[i],w2[i],w3[i]};
 end
-                                                                       
+assign quotient= w1[DIVIDENDLEN-1];
+assign remainder= w2[DIVIDENDLEN-1];								       
+								      
+								    
   
 endmodule
 
