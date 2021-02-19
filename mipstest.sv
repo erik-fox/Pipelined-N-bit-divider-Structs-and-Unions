@@ -9,9 +9,9 @@ initial
 begin
   $dumpfile("dump.vcd"); $dumpvars;
   #10
-  $display("r - opcode: %b rs: %b rt: %b rd: %b shift: %b func: %b",instr.r.opcode,instr.r.rs, instr.r.rt,instr.r.rd,instr.r.shift,instr.r.func);
-  $display("i - opcode: %b rs: %b rt: %b imm: %b",instr.i.opcode, instr.i.rs,instr.i.rt, instr.i.imm);
-  $display("j - opcode: %b address: %b", instr.j.opcode, instr.j.address);
+  $display("r - opcode: %b rs: %b rt: %b rd: %b shift: %b func: %b",rinstr.r.opcode,rinstr.r.rs, rinstr.r.rt,rinstr.r.rd,rinstr.r.shift,rinstr.r.func);
+  $display("i - opcode: %b rs: %b rt: %b imm: %b",iinstr.i.opcode, iinstr.i.rs,iinstr.i.rt, iinstr.i.imm);
+  $display("j - opcode: %b address: %b", jinstr.j.opcode, jinstr.j.address);
   
 end
   
