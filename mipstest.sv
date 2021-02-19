@@ -1,7 +1,9 @@
 module top();
   
 import mips::*;
-  mipsinst instr=32'h87654321;
+mipsinst iinstr=32'b00100010011010100000000000000100;
+mipsinst jinstr=32'b00001000000000000000000100000001;
+mipsinst rinstr=32'b00000010001100101000000000100000;
   
 initial
 begin
