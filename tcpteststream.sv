@@ -1,4 +1,7 @@
-task sendByte(bit [7:0] din[$]);
-  foreach(din[i])
-  $display("Byte: %h",din.pop_front);
+task sendSegmentHeader(tcpheader din);
+  bit [7:0] stream [$];
+  stream = {>>{din}};
+  for(int i =0; i<= (din.offset * 4) - 1; i++)
+      sendByte(stream.pop_front);
+
 endtask
