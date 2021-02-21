@@ -11,26 +11,25 @@ wire[DIVIDENDLEN-1:0]w1[DIVIDENDLEN];  //qout
 wire[DATAPATHLEN-1:0]w2[DIVIDENDLEN];    //dout
 wire[DIVISORLEN-1:0]w3[DIVIDENDLEN];     //divout
   
- bit [DIVISORLEN+DATAPATHLEN+DIVIDENDLEN-1:0]register[DIVIDENDLEN+1];//bits in divisor, datapath, quotient 
- bit [DIVIDENDLEN-1:0]q='0;
+bit [DIVISORLEN+DATAPATHLEN+DIVIDENDLEN-1:0]register[DIVIDENDLEN+1];//bits in divisor, datapath, quotient 
+bit [DIVIDENDLEN-1:0]q='0;
 genvar i;
 
 generate
 	for (i=0;i<=(DIVIDENDLEN)-1;i++)
 	begin:divider
-				dividerslice #(((DIVIDENDLEN-1)-i),DIVIDENDLEN,DIVISORLEN) d(register[i][DATAPATHLEN+DIVISORLEN-1:DIVISORLEN],register[i][DIVISORLEN-1:0],register[i][DIVISORLEN+DATAPATHLEN+DIVIDENDLEN-1:DATAPATHLEN+DIVISORLEN],w1[i],w2[i],w3[i]);
-
+		dividerslice #(((DIVIDENDLEN-1)-i),DIVIDENDLEN,DIVISORLEN) d(register[i][DATAPATHLEN+DIVISORLEN-1:DIVISORLEN],register[i][DIVISORLEN-1:0],register[i][DIVISORLEN+DATAPATHLEN+DIVIDENDLEN-1:DATAPATHLEN+DIVISORLEN],w1[i],w2[i],w3[i]);
 	end
 endgenerate
 
 always_ff @(posedge clock)
 begin
-  for(int j=0;j<=(DIVIDENDLEN);j=j+1)
+	for(int j=0;j<=(DIVIDENDLEN);j=j+1)
 	begin
 		if(j==0)
 			register[j]<={q,dividend,divisor};		
 		else
-            register[j]<={w1[j-1],w2[j-1],w3[j-1]};
+            		register[j]<={w1[j-1],w2[j-1],w3[j-1]};
 	end
 end
 assign quotient=register [DIVIDENDLEN] [DIVIDENDLEN+DIVISORLEN+DATAPATHLEN-1 : DIVISORLEN+DATAPATHLEN];
@@ -67,7 +66,7 @@ always_comb
 	begin
       		if(SHIFT!=DIVIDENDLEN-1)
           		begin
-			qout[DIVIDENDLEN-1:SHIFT+1]= qin[DIVIDENDLEN-1:SHIFT+1];
+				qout[DIVIDENDLEN-1:SHIFT+1]= qin[DIVIDENDLEN-1:SHIFT+1];
 			end
     	end
   

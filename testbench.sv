@@ -1,7 +1,7 @@
 //testbench for pipelined divider
 module top();
-parameter DIVIDEND =3;
-parameter DIVISOR =2;
+parameter DIVIDEND =16;
+parameter DIVISOR =8;
 parameter TRUE = 1'b1;
 parameter FALSE  = 1'b0;
 parameter CLOCK_CYCLE  = 20;
@@ -27,7 +27,7 @@ end
 initial
 begin
 	$dumpfile("dump.vcd"); $dumpvars;
-  for(int i=0; i<=(1<<(DIVISOR+DIVIDEND)); i++)
+  	for(int i=0; i<=(1<<(DIVISOR+DIVIDEND)); i++)
    	begin
       		#20 
       		{divisor,dividend}=i;
@@ -37,10 +37,10 @@ end
 
 always @(posedge clock)
 begin
-  #1
-      queue.push_front({divisor,dividend});
-  if(queue.size()===(DIVIDEND+1))
-      begin
+  	#1
+      	queue.push_front({divisor,dividend});
+  	if(queue.size()===(DIVIDEND+1))
+      	begin
       		tbcheck = queue.pop_back();
       		if(tbcheck[DIVIDEND-1:0]/tbcheck[DIVIDEND+DIVISOR-1:DIVIDEND]!==quotient)
       		begin
