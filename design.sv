@@ -11,35 +11,35 @@ wire[DIVIDENDLEN-1:0]w1[DIVIDENDLEN];  //qout
 wire[DATAPATHLEN-1:0]w2[DIVIDENDLEN];    //dout
 wire[DIVISORLEN-1:0]w3[DIVIDENDLEN];     //divout
   
- bit [DIVISORLEN+DATAPATHLEN+DIVIDENDLEN-1:0]register[DIVIDENDLEN];//bits in divisor, datapath, quotient 
- bit [DIVIDENDLEN-1:0]q='0;
+bit [DIVISORLEN+DATAPATHLEN+DIVIDENDLEN-1:0]register[DIVIDENDLEN+1];//bits in divisor, datapath, quotient 
+bit [DIVIDENDLEN-1:0]q='0;
 genvar i;
 
 generate
 	for (i=0;i<=(DIVIDENDLEN)-1;i++)
 	begin:divider
-        	if(i==0)//first
-	    	begin
-          		dividerslice #(((DIVIDENDLEN-1)-i),DIVIDENDLEN,DIVISORLEN) d(dividend,divisor,q,w1[i],w2[i],w3[i]);
-		end
-        	else
-        	begin
-             		dividerslice #(((DIVIDENDLEN-1)-i),DIVIDENDLEN,DIVISORLEN) d(register[i-1][DATAPATHLEN+DIVISORLEN-1:DIVISORLEN],register[i-1][DIVISORLEN-1:0],register[i-1][DIVISORLEN+DATAPATHLEN+DIVIDENDLEN-1:DATAPATHLEN+DIVISORLEN],w1[i],w2[i],w3[i]);
-		end
+		dividerslice #(((DIVIDENDLEN-1)-i),DIVIDENDLEN,DIVISORLEN) d(register[i][DATAPATHLEN+DIVISORLEN-1:DIVISORLEN],register[i][DIVISORLEN-1:0],register[i][DIVISORLEN+DATAPATHLEN+DIVIDENDLEN-1:DATAPATHLEN+DIVISORLEN],w1[i],w2[i],w3[i]);
 	end
 endgenerate
 
 always_ff @(posedge clock)
 begin
-	for(int j=0;j<=(DIVIDENDLEN)-1;j++)
-		register[j]<={w1[j],w2[j],w3[j]};
+	for(int j=0;j<=(DIVIDENDLEN);j=j+1)
+	begin
+		if(j==0)
+			register[j]<={q,dividend,divisor};		
+		else
+            		register[j]<={w1[j-1],w2[j-1],w3[j-1]};
+	end
 end
-assign quotient=register [DIVIDENDLEN-1] [DIVIDENDLEN+DIVISORLEN+DATAPATHLEN-1 : DIVISORLEN+DATAPATHLEN];
-assign remainder= register[DIVIDENDLEN-1][DIVISORLEN+DATAPATHLEN-1:DIVISORLEN];								       
+assign quotient=register [DIVIDENDLEN] [DIVIDENDLEN+DIVISORLEN+DATAPATHLEN-1 : DIVISORLEN+DATAPATHLEN];
+assign remainder= register[DIVIDENDLEN][DIVISORLEN+DATAPATHLEN-1:DIVISORLEN];								       
 								      
 								    
   
 endmodule
+
+
 
 module dividerslice #(parameter SHIFT=5 ,parameter DIVIDENDLEN=16, parameter DIVISORLEN = 8)(din,divin,qin,qout,dout,divout);
 localparam DATAPATHLEN = DIVIDENDLEN + DIVISORLEN -1;
@@ -66,7 +66,7 @@ always_comb
 	begin
       		if(SHIFT!=DIVIDENDLEN-1)
           		begin
-			qout[DIVIDENDLEN-1:SHIFT+1]= qin[DIVIDENDLEN-1:SHIFT+1];
+				qout[DIVIDENDLEN-1:SHIFT+1]= qin[DIVIDENDLEN-1:SHIFT+1];
 			end
     	end
   
