@@ -18,7 +18,10 @@ genvar i;
 generate
 	for (i=0;i<=(DIVIDENDLEN)-1;i++)
 	begin:divider
-             		dividerslice #(((DIVIDENDLEN-1)-i),DIVIDENDLEN,DIVISORLEN) d(register[i-1][DATAPATHLEN+DIVISORLEN-1:DIVISORLEN],register[i-1][DIVISORLEN-1:0],register[i-1][DIVISORLEN+DATAPATHLEN+DIVIDENDLEN-1:DATAPATHLEN+DIVISORLEN],w1[i],w2[i],w3[i]);
+			if(i==0)
+				dividerslice #(((DIVIDENDLEN-1)-i),DIVIDENDLEN,DIVISORLEN) d(register[i][DATAPATHLEN+DIVISORLEN-1:DIVISORLEN],register[i][DIVISORLEN-1:0],register[i][DIVISORLEN+DATAPATHLEN+DIVIDENDLEN-1:DATAPATHLEN+DIVISORLEN],w1[i],w2[i],w3[i]);
+			else
+             			dividerslice #(((DIVIDENDLEN-1)-i),DIVIDENDLEN,DIVISORLEN) d(register[i-1][DATAPATHLEN+DIVISORLEN-1:DIVISORLEN],register[i-1][DIVISORLEN-1:0],register[i-1][DIVISORLEN+DATAPATHLEN+DIVIDENDLEN-1:DATAPATHLEN+DIVISORLEN],w1[i],w2[i],w3[i]);
 	end
 endgenerate
 
