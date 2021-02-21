@@ -1,7 +1,7 @@
 //testbench for pipelined divider
 module top();
-parameter DIVIDEND =16;
-parameter DIVISOR =8;
+parameter DIVIDEND =3;
+parameter DIVISOR =2;
 parameter TRUE = 1'b1;
 parameter FALSE  = 1'b0;
 parameter CLOCK_CYCLE  = 20;
