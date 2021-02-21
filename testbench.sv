@@ -14,7 +14,7 @@ wire [DIVIDEND-1:0] quotient;
 wire [DIVISOR-1:0] remainder;
 
 bit [DIVIDEND+DIVISOR-1:0] queue [$];
-  bit [DIVIDEND+DIVISOR-1:0] tbcheck;
+bit [DIVIDEND+DIVISOR-1:0] tbcheck;
   
 pipelinediv  #(DIVIDEND,DIVISOR)d0(clock, dividend,divisor,quotient, remainder);
 
@@ -27,7 +27,7 @@ end
 initial
 begin
 	$dumpfile("dump.vcd"); $dumpvars;
-	for(int i=0; i<=(1<<(DIVISOR+DIVIDEND)); i++)
+  for(int i=0; i<=(1<<(DIVISOR+DIVIDEND)); i++)
    	begin
       		#20 
       		{divisor,dividend}=i;
@@ -39,7 +39,7 @@ always @(posedge clock)
 begin
   #1
       queue.push_front({divisor,dividend});
-  		if(queue.size()===(DIVIDEND))
+  if(queue.size()===(DIVIDEND+1))
       begin
       		tbcheck = queue.pop_back();
       		if(tbcheck[DIVIDEND-1:0]/tbcheck[DIVIDEND+DIVISOR-1:DIVIDEND]!==quotient)
@@ -55,7 +55,7 @@ begin
                 end
        		else if(remainder!==tbcheck[DIVIDEND-1:0] - (quotient*tbcheck[DIVIDEND+DIVISOR-1:DIVIDEND]))
           		$display("error remainder: %d, expected: %d", remainder, (tbcheck[DIVIDEND-1:0] - ((tbcheck[DIVIDEND-1:0]/tbcheck[DIVIDEND+DIVISOR-1:DIVIDEND])*tbcheck[DIVIDEND+DIVISOR-1:DIVIDEND])));
-`ifdef DEBUG     
+`ifdef DEBUG
 	 	else
          		$display("dividend: %d divisor: %d quotient: %d remainder %d", tbcheck[DIVIDEND-1:0], tbcheck[DIVIDEND+DIVISOR-1:DIVIDEND], quotient,remainder);
 `endif
