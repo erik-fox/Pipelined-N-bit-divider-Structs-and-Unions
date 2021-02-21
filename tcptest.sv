@@ -17,7 +17,7 @@ tcpheader data;
         data.destport=16'hBBBB;
         data.seqport=32'hCCCCDDDD;
         data.acknum=32'hEEEEFFFF;
-        data.offset=4'h6;
+        data.offset=4'h5;
         data.reserved=3'b111;
         data.ns=1'b1;//5F
         {data.cwr,data.ece,data.urg,data.ack,data.psh,data.rst,data.syn,data.fin}=8'hAB;
