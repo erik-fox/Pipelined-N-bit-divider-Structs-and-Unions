@@ -27,11 +27,12 @@ end
 initial
 begin
 	$dumpfile("dump.vcd"); $dumpvars;
-  	for(int i=0; i<=(1<<(DIVISOR+DIVIDEND)); i++)
+  	for(int i=0; i<=(1<<(DIVISOR+DIVIDEND))-1; i++)
    	begin
       		#20 
       		{divisor,dividend}=i;
     	end
+	#10
 	$stop;
 end
 
