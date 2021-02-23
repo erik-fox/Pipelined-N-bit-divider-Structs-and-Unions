@@ -14,6 +14,7 @@ begin
       case(instr[i].r.opcode)
         6'b000000: $display("r  - opcode: %b rs: %b rt: %b rd: %b shift: %b func: %b",instr[i].r.opcode,instr[i].r.rs, instr[i].r.rt,instr[i].r.rd,instr[i].r.shift,instr[i].r.func);
         6'b000010,6'b000011 :  $display("j - opcode: %b address: %b", instr[i].j.opcode, instr[i].j.address);
+        6'b010000,6'b010001, 6'b010011: $display("coprocessor instruction");
         default: $display("i - opcode: %b rs: %b rt: %b imm: %b",instr[i].i.opcode, instr[i].i.rs,instr[i].i.rt, instr[i].i.imm);
       endcase
   
